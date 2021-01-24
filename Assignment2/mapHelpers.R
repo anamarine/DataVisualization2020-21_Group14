@@ -1,7 +1,7 @@
 cities_map <- function(shootings, years){
   # Prepare data
   shootings$city_state <- paste(shootings$city, shootings$state, sep=" ")
-  data <-count(shootings[2014 + as.integer(shootings$year) >= years[1] & 2014 + as.integer(shootings$year) <= years[2],], 'city_state')
+  data <-count(shootings[shootings$year >= years[1] & shootings$year <= years[2],], 'city_state')
   data <- merge(data, us.cities, by.x="city_state", by.y="name",no.dups = TRUE, suffixes = c("",""))
   return(data)
 }
