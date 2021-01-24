@@ -30,7 +30,7 @@ source("mapHelpers.R")
 # cat('Working directory:', getwd())
 
 # Load data ----
-shootings <- read_csv("data/shootings.csv")
+shootings = read.csv(url("https://raw.githubusercontent.com/anamarine/DataVisualization2020-21_Group14/main/Assignment2/data/shootings.csv"))
 # Data wrangling
 shootings = shootings %>% 
   mutate(date = ymd(date)) %>% 
@@ -39,7 +39,7 @@ shootings = shootings %>%
 shootings$week_day <- wday(shootings$date)
 
 
-shootings[,c('manner_of_death','armed','gender', 'race', 'city', 'state', 'signs_of_mental_illness', 'threat_level', 'flee', 'body_camera', 'arms_category', 'year', 'month', 'week_day')]  <- lapply(shootings[,c('manner_of_death','armed','gender', 'race', 'city', 'state', 'signs_of_mental_illness', 'threat_level', 'flee', 'body_camera', 'arms_category', 'year', 'month', 'week_day')], factor)
+shootings[,c('manner_of_death','armed','gender', 'race', 'city', 'state', 'signs_of_mental_illness', 'threat_level', 'flee', 'body_camera', 'arms_category')]  <- lapply(shootings[,c('manner_of_death','armed','gender', 'race', 'city', 'state', 'signs_of_mental_illness', 'threat_level', 'flee', 'body_camera', 'arms_category')], factor)
 shootings$age <- as.integer(shootings$age)
 
 # Map config
@@ -62,6 +62,18 @@ time_option <- c('day', 'week_day', 'month', 'year', 'year_month')
 ts_vars <- corr_option[!(corr_option %in% time_option)]
 
 data_cluster<-shootings[,-(1:3)]
+data_cluster$age=as.integer(data_cluster$age)
+data_cluster$year=as.integer(data_cluster$year)
+data_cluster$month=as.integer(data_cluster$month)
+data_cluster$day=as.integer(data_cluster$day)
+
+cols=colnames(data_cluster)
+cols=cols[-3]
+cols=cols[-(12:14)]
+
+#for (i in cols){
+ # data_cluster[,i]=as.factor(as.character(data_cluster[,i]))
+#}
 
 # User interface ----
 ui <- fluidPage(
