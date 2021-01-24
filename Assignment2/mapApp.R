@@ -85,9 +85,9 @@ ui <- fluidPage(
       helpText("Please, choose the period of time you want to see."),
       sliderInput("years", 
                   label = "Year range:",
-                  min = min(2014 + as.integer(shootings$year)), 
-                  max = max(2014 + as.integer(shootings$year)), 
-                  value = c(min(2014 + as.integer(shootings$year)), max(2014 + as.integer(shootings$year))),
+                  min = min(shootings$year), 
+                  max = max(shootings$year), 
+                  value = c(min(shootings$year), max(shootings$year)),
                   sep = "")
     ),
     mainPanel(plotlyOutput("cit_map"))
@@ -103,7 +103,7 @@ ui <- fluidPage(
                   choices = c("Male and Female", 
                               "Male",
                               "Female"),
-                  selected = "All"),
+                  selected = "Male"),
       
       selectInput("race", 
                   label = "Victim's race",
@@ -209,7 +209,7 @@ server <- function(input, output, session) {
       x = ~long, y = ~lat, size = ~freq, hoverinfo = "text", 
       text = ~paste(data$city_state, "<br />", data$freq, " shootings")
     )
-    fig <- fig %>% layout(title = paste0('US city shootings between', input$years[1], " and ", input$years[2]), geo = g)
+    fig <- fig %>% layout(title = paste0('US city shootings between ', input$years[1], " and ", input$years[2]), geo = g)
     
   })
   
